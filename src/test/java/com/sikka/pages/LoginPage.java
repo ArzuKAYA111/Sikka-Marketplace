@@ -1,5 +1,8 @@
 package com.sikka.pages;
+
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.sikka.utilities.CommonMethods;
-
+import com.sikka.utilities.Constants;
 
 public class LoginPage extends CommonMethods {
 
@@ -30,14 +33,26 @@ public class LoginPage extends CommonMethods {
 	public static List<WebElement> AppTypes;
 
 	@FindBy(xpath = "//div[@id='divapps']//a")
-	public static List<WebElement> Tiles;	
+	public static List<WebElement> Tiles;
+
 	
 	
 	public LoginPage() {
 		PageFactory.initElements(driver, this);
 	}
+
 	
-	public static void clickIndsAndApp(String actInds,String actApp,String sheetName) throws IOException {
+	
+	/**
+	 * This method clicks Industry and App Type, getting related Tiles and by
+	 * calling WriteExel method writes the tiles into the excel.
+	 * 
+	 * @param actInds
+	 * @param actApp
+	 * @param sheetName
+	 * @throws IOException
+	 */
+	public static void clickIndsAndAppGetTiles(String actInds, String actApp, String sheetName) {
 		for (int i = 0; i < Industries.size(); i++) {
 			if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
 				Industries.get(i).click();
@@ -48,59 +63,102 @@ public class LoginPage extends CommonMethods {
 			if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(actApp)) {
 				AppTypes.get(i).click();
 				System.out.println(tilesName());
-				System.out.println("Tiles size "+tilesName().size());
-				createExel(actInds, actApp, sheetName);
+				System.out.println("Tiles size " + tilesName().size());
+				try {
+					writeExel(actInds, actApp, sheetName);
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
 				break;
 			}
 		}
 	}
 	
-public static String indName(String actInds) {
-	String ind = "";
-	for (int i = 0; i < Industries.size(); i++) {
-		if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
-			ind = actInds;
-			break;
-		}
-	}
-	return ind;
-}
-
-
-public static String appName(String actApp) {	
-	String app = "";
-	for (int i = 0; i < AppTypes.size(); i++) {
-		if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(actApp)) {
-			app = actApp;
-			break;
-		}
-	}
-	return app;
-}
-
-/**
- * This methods return the tiles
- * @return
- */
-public static List<String> tilesName() {
-	List<String> tiles = new ArrayList<>();
-	int tilesCount = Tiles.size();
-
-	for (int i = 0; i < tilesCount; i++) {
-		tiles.add(Tiles.get(i).getAttribute("data-name"));
-	}
-
-	return tiles;
-}
-
-	public static void createExel(String actInds,String actApp,String sheetName) throws IOException {
 	
-		File currDir = new File(".");
-		String path = currDir.getAbsolutePath();
-		String fileLocation = path.substring(0, path.length() - 1) + "/src/test/resources/testData/Task1.xlsx";
-		
-		Workbook workbook = new XSSFWorkbook();
+
+	/**
+	 * This method getting and return all industry names
+	 * 
+	 * @param actInds
+	 * @return industry names
+	 */
+	public static String indName(String actInds) {
+		String ind = "";
+		for (int i = 0; i < Industries.size(); i++) {
+			if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
+				ind = actInds;
+				break;
+			}
+		}
+		return ind;
+	}
+	
+	
+
+	/**
+	 * This method getting and return all app types
+	 * 
+	 * @param actApp
+	 * @return app types
+	 */
+	public static String appName(String actApp) {
+		String app = "";
+		for (int i = 0; i < AppTypes.size(); i++) {
+			if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(actApp)) {
+				app = actApp;
+				break;
+			}
+		}
+		return app;
+	}
+	
+
+	/**
+	 * This methods getting tiles and return them
+	 * 
+	 * @return tiles
+	 */
+	public static List<String> tilesName() {
+		List<String> tiles = new ArrayList<>();
+		int tilesCount = Tiles.size();
+
+		for (int i = 0; i < tilesCount; i++) {
+			tiles.add(Tiles.get(i).getAttribute("data-name"));
+		}
+
+		return tiles;
+	}
+	
+
+	/**
+	 * This method taking industry name, app name and tiles name from related
+	 * methods, creates an excel file and write them into the that excel file.
+	 * 
+	 * @param actInds
+	 * @param actApp
+	 * @param sheetName
+	 * @throws IOException
+	 */
+	public static void writeExel(String actInds, String actApp, String sheetName) throws IOException {
+
+		String fileLocation = Constants.TESTDATA_FILEPATH + "/Task_1.xlsx";
+
+		File file = new File(fileLocation);
+		Workbook workbook;
+
+		if (file.exists()) {
+
+			FileInputStream fis = new FileInputStream(fileLocation);
+
+			workbook = new XSSFWorkbook(fis);
+		} else {
+
+			workbook = new XSSFWorkbook();
+		}
+
 		Sheet sheet = workbook.createSheet(sheetName);
+		workbook.setActiveSheet(0);
 		Row header = sheet.createRow(0);
 
 		CellStyle headerStyle = workbook.createCellStyle();
@@ -121,7 +179,7 @@ public static List<String> tilesName() {
 
 		CellStyle style = workbook.createCellStyle();
 		style.setWrapText(true);
-		
+
 		for (int i = 0; i < 4; i++) {
 			sheet.setColumnWidth(i, 6000);
 			Cell headerCell = header.createCell(i);
@@ -129,7 +187,6 @@ public static List<String> tilesName() {
 			headerCell.setCellStyle(headerStyle);
 		}
 
-		
 		int tilesCount = Tiles.size();
 
 		for (int rw = 1; rw <= tilesCount; rw++) {
@@ -141,7 +198,6 @@ public static List<String> tilesName() {
 
 			cell = row.createCell(1);
 			cell.setCellValue(tilesName().get(rw - 1));
-			cell.setCellStyle(style);
 
 			cell = row.createCell(2);
 			cell.setCellValue(indName(actInds));
@@ -149,16 +205,22 @@ public static List<String> tilesName() {
 
 			cell = row.createCell(3);
 			cell.setCellValue(appName(actApp));
-			cell.setCellStyle(style);
 
 		}
-	
-		FileOutputStream outputStream = new FileOutputStream(fileLocation);
-		workbook.write(outputStream);
-		workbook.close();
-		
-	}
-	
 
-	
+		FileOutputStream outputStream;
+		try {
+			outputStream = new FileOutputStream(fileLocation);
+			workbook.write(outputStream);
+			workbook.close();
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
 }

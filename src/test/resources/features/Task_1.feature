@@ -2,14 +2,19 @@
   #Author: Arzu Kaya
 
 
-Feature: Read each tiles name ,its Industry and App Type from excel sheet and verify on the 
-https://www.sikkasoft.com/Marketplace whether that specific tile is available under the given Industry and App Type.
+Feature: Read tiles Industry-wise and App type-wise
+   
 
-
-
-    Scenario Outline: Get the tiles for all type industries and apps then write in excel.
+    Scenario Outline: Read all the tiles on the UI and store it in the excel file Industry-wise and App type-wise.
      Given user navigate the application login Page
     Then user select "<industry>" from Industry options and "<appType>" from App type options and reads tiles then writes them into the excel "<sheetName>" sheet
+    
+    
+    
+    
+    
+    
+    
 
         Examples: 
       | industry    |           appType                  |   sheetName         |
