@@ -6,8 +6,8 @@ Feature: Read each tiles name ,its Industry and App Type from excel sheet and ve
 https://www.sikkasoft.com/Marketplace whether that specific tile is available under the given Industry and App Type.
 
 
-  Given user navigate the application login Page
-    Scenario Outline: Get the Tiles for Dental type industry and Patient Marketing type App and write in excel
+
+    Scenario Outline: Get the tiles for all type industries and apps then write in excel.
      Given user navigate the application login Page
     Then user select "<industry>" from Industry options and "<appType>" from App type options and reads tiles then writes them into the excel "<sheetName>" sheet
 
