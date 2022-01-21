@@ -9,12 +9,7 @@ Feature: Read tiles Industry-wise and App type-wise
      Given user navigate the application login Page
     Then user select "<industry>" from Industry options and "<appType>" from App type options and reads tiles then writes them into the excel "<sheetName>" sheet
     
-    
-    
-    
-    
-    
-    
+
 
         Examples: 
       | industry    |           appType                  |   sheetName         |
@@ -38,3 +33,8 @@ Feature: Read tiles Industry-wise and App type-wise
       |Optometry    | Payments                           |Optometry_Paymnt     |
       |Optometry    | Manufacturers/Labs                 |Optometry_Manufactr  |
       |Optometry    |Revenue Cycle                       |Optometry_Revenue    |
+      |Chiropractic | Business Performance Management    |Chiropractic_BPM     |
+      |Chiropractic | Patient Marketing                  |Chiropractic_PatMartk|
+      |Chiropractic | Payments                           |Chiropractic_Paymnt  |
+      |Chiropractic | Manufacturers/Labs                 |Chiropractic_Manufactr|
+      |Chiropractic |Revenue Cycle                       |Chiropractic_Revenue  |

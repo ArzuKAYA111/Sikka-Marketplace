@@ -24,6 +24,7 @@ import org.openqa.selenium.support.PageFactory;
 import com.sikka.utilities.CommonMethods;
 import com.sikka.utilities.Constants;
 
+
 public class LoginPage extends CommonMethods {
 
 	@FindBy(xpath = "//div[@id='ddlSort1']//label/input")
@@ -41,41 +42,7 @@ public class LoginPage extends CommonMethods {
 		PageFactory.initElements(driver, this);
 	}
 
-	
-	
-	/**
-	 * This method clicks Industry and App Type, getting related Tiles and by
-	 * calling WriteExel method writes the tiles into the excel.
-	 * 
-	 * @param actInds
-	 * @param actApp
-	 * @param sheetName
-	 * @throws IOException
-	 */
-	public static void clickIndsAndAppGetTiles(String actInds, String actApp, String sheetName) {
-		for (int i = 0; i < Industries.size(); i++) {
-			if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
-				Industries.get(i).click();
-				break;
-			}
-		}
-		for (int i = 0; i < AppTypes.size(); i++) {
-			if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(actApp)) {
-				AppTypes.get(i).click();
-				System.out.println(tilesName());
-				System.out.println("Tiles size " + tilesName().size());
-				try {
-					writeExel(actInds, actApp, sheetName);
-				} catch (IOException e) {
 
-					e.printStackTrace();
-				}
-				break;
-			}
-		}
-	}
-	
-	
 
 	/**
 	 * This method getting and return all industry names
@@ -85,7 +52,7 @@ public class LoginPage extends CommonMethods {
 	 */
 	public static String indName(String actInds) {
 		String ind = "";
-		for (int i = 0; i < Industries.size(); i++) {
+		for (int i = 0; i <= Industries.size(); i++) {
 			if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
 				ind = actInds;
 				break;
@@ -222,5 +189,40 @@ public class LoginPage extends CommonMethods {
 		}
 
 	}
+	
+	/**
+	 * This method clicks Industry and App Type, getting related Tiles and by
+	 * calling WriteExel method writes the tiles into the excel.
+	 * 
+	 * @param actInds
+	 * @param actApp
+	 * @param sheetName
+	 * @throws IOException
+	 */
+	public static void clickIndsAndAppGetTiles(String actInds, String actApp, String sheetName) {
+		for (int i = 0; i < Industries.size(); i++) {
+			if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
+				Industries.get(i).click();
+				break;
+			}
+		}
+		for (int i = 0; i < AppTypes.size(); i++) {
+			if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(actApp)) {
+				AppTypes.get(i).click();
+				System.out.println(tilesName());
+				System.out.println("Tiles size " + tilesName().size());
+				try {
+					writeExel(actInds, actApp, sheetName);
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+	}
+	
+	
+	
 
 }
