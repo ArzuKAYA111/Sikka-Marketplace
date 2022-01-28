@@ -1,9 +1,12 @@
 #Author: Arzu Kaya
 Feature: Read tiles Industry-wise and App type-wise
 
-    Scenario Outline: Read all the tiles on the UI and store them in the excel file Industry-wise and App type-wise.
-      Given user navigate the application login Page
-      Then user select "<industry>" from Industry options and "<appType>" from App type options and reads tiles then writes them into the excel "<sheetName>" sheet
+
+    Scenario Outline: Read all the tiles on the UI and store it in the excel file Industry-wise and App type-wise.
+     Given user navigate the application login Page
+    Then user select "<industry>" from Industry options and "<appType>" from App type options and reads tiles then writes them into the excel "<sheetName>" sheet
+    
+
 
 
         Examples: 

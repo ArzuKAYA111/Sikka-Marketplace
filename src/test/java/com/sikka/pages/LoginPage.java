@@ -25,6 +25,7 @@ import org.openqa.selenium.support.PageFactory;
 import com.sikka.utilities.CommonMethods;
 import com.sikka.utilities.Constants;
 
+
 public class LoginPage extends CommonMethods {
 
     @FindBy(xpath = "//div[@id='ddlSort1']//label/input")
@@ -39,6 +40,7 @@ public class LoginPage extends CommonMethods {
     public LoginPage() {
         PageFactory.initElements(driver, this);
     }
+
 
 
     /**
@@ -57,6 +59,7 @@ public class LoginPage extends CommonMethods {
         }
         return actInd;
     }
+
 
 
     /**
@@ -185,38 +188,40 @@ public class LoginPage extends CommonMethods {
 
     }
 
-    /**
-     * This method clicks Industry and App Type, getting related Tiles and by
-     * calling WriteExel method writes the tiles into the excel.
-     *
-     * @param exptInds
-     * @param exptApp
-     * @param sheetName
-     * @throws IOException
-     */
-    public static void clickIndsAndAppGetTiles(String exptInds, String exptApp, String sheetName) {
-        for (int i = 0; i < Industries.size(); i++) {
-            if (Industries.get(i).getAttribute("value").equalsIgnoreCase(exptInds)) {
-                Industries.get(i).click();
-                break;
-            }
-        }
-        for (int i = 0; i < AppTypes.size(); i++) {
-            if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(exptApp)) {
-                AppTypes.get(i).click();
+	
+	/**
+	 * This method clicks Industry and App Type, getting related Tiles and by
+	 * calling WriteExel method writes the tiles into the excel.
+	 * 
+	 * @param actInds
+	 * @param actApp
+	 * @param sheetName
+	 * @throws IOException
+	 */
+	public static void clickIndsAndAppGetTiles(String actInds, String actApp, String sheetName) {
+		for (int i = 0; i < Industries.size(); i++) {
+			if (Industries.get(i).getAttribute("value").equalsIgnoreCase(actInds)) {
+				Industries.get(i).click();
+				break;
+			}
+		}
+		for (int i = 0; i < AppTypes.size(); i++) {
+			if (AppTypes.get(i).getAttribute("value").equalsIgnoreCase(actApp)) {
+				AppTypes.get(i).click();
+				System.out.println(tilesName());
+				System.out.println("Tiles size " + tilesName().size());
+				try {
+					writeExel(actInds, actApp, sheetName);
+				} catch (IOException e) {
 
-//				System.out.println(tilesName());
-//				System.out.println("Tiles size " + tilesName().size());
-                try {
-                    writeExel(exptInds, exptApp, sheetName);
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-                }
-                break;
-            }
-        }
-    }
+					e.printStackTrace();
+				}
+				break;
+			}
+		}
+	}
+	
+	
 
 
 }
