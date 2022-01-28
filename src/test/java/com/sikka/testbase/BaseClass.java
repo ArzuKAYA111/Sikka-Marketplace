@@ -24,7 +24,6 @@ public class BaseClass {
 	
 		case "chrome":
 			WebDriverManager.chromedriver().setup();
-			
 				driver = new ChromeDriver();
 				break;
 		

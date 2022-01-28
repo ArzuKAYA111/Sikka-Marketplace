@@ -14,11 +14,11 @@ public class Tesk1_stepdefinition extends CommonMethods {
 	}
 
 	@Then("user select {string} from Industry options and {string} from App type options and reads tiles then writes them into the excel {string} sheet")
-	public void user_select_from_industry_options_and_from_app_type_options_and_reads_tiles_then_writes_them_into_the_excel_sheet(String industry, String appType, String sheetName) {
+	public void user_select_from_industry_options_and_from_app_type_options_and_reads_tiles_then_writes_them_into_the_excel_sheet(String exptInds, String axptAppType, String sheetName) {
 
-		login.clickIndsAndAppGetTiles(industry, appType, sheetName);
-		
-		
+		login.clickIndsAndAppGetTiles(exptInds, axptAppType, sheetName);
+
+
 
 	}
 }

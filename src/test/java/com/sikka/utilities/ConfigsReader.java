@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class ConfigsReader {
 
-	
+
 	public static Properties prop;
 
 	/**
@@ -26,15 +26,15 @@ public class ConfigsReader {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * This method will return value of specified key
-	 * @param String key
+	 * @param key
 	 * @return String value
 	 */
 	public static String getProperty(String key) {
-		
+
 		return prop.getProperty(key);
 	}
-	
+
 }
